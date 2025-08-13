@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie同步器</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="cookie-sync-container">
+        <!-- 顶部标题栏 -->
+        <div class="header">
+            <div class="title">
+                <i class="layui-icon layui-icon-cookie"></i>
+                Cookie同步器
+            </div>
+            <div class="settings-btn" id="settingsBtn">
+                <i class="layui-icon layui-icon-set"></i>
+            </div>
+        </div>
+
+        <!-- 同步状态卡片 -->
+        <div class="status-card">
+            <div class="status-info">
+                <div class="status-indicator">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text" id="statusText">未同步</span>
+                </div>
+                <div class="last-sync" id="lastSync">从未同步</div>
+            </div>
+            <div class="cookie-count">
+                <div class="count-number" id="cookieCount">0</div>
+                <div class="count-label">Cookie数量</div>
+            </div>
+        </div>
+
+        <!-- 快速操作按钮区 -->
+        <div class="action-buttons">
+            <button class="upload-btn" id="uploadBtn">
+                <i class="layui-icon layui-icon-upload"></i>
+                立即上传
+            </button>
+            <button class="download-btn" id="downloadBtn">
+                <i class="layui-icon layui-icon-download"></i>
+                立即下载
+            </button>
+        </div>
+
+        <!-- 进度显示区域 -->
+        <div class="progress-area" id="progressArea" style="display: none;">
+            <div class="progress-bar">
+                <div class="layui-progress layui-progress-big">
+                    <div class="layui-progress-bar" id="progressBar" lay-percent="0%"></div>
+                </div>
+            </div>
+            <div class="progress-text" id="progressText">准备中...</div>
+        </div>
+
+        <!-- 消息提示区域 -->
+        <div class="message-area" id="messageArea" style="display: none;">
+            <div class="message-content" id="messageContent"></div>
+        </div>
+    </div>
+
+    <!-- 设置页面 -->
+    <div class="settings-page" id="settingsPage" style="display: none;">
+        <div class="settings-header">
+            <div class="back-btn" id="backBtn">
+                <i class="layui-icon layui-icon-return"></i>
+            </div>
+            <div class="settings-title">设置</div>
+        </div>
+
+        <div class="settings-content">
+            <!-- 同步频率设置 -->
+            <div class="setting-group">
+                <div class="setting-title">同步频率</div>
+                <div class="setting-options">
+                    <label class="radio-option">
+                        <input type="radio" name="syncFreq" value="manual" checked>
+                        <span>手动</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="syncFreq" value="hourly">
+                        <span>每小时</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="syncFreq" value="daily">
+                        <span>每天</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="syncFreq" value="weekly">
+                        <span>每周</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 服务器配置 -->
+            <div class="setting-group">
+                <div class="setting-title">服务器地址</div>
+                <div class="layui-form-item">
+                    <input type="text" id="serverUrl" placeholder="请输入服务器地址" class="layui-input">
+                </div>
+            </div>
+
+            <!-- 用户标识 -->
+            <div class="setting-group">
+                <div class="setting-title">用户标识</div>
+                <div class="layui-form-item">
+                    <input type="text" id="userId" placeholder="请输入用户标识" class="layui-input">
+                </div>
+            </div>
+
+            <!-- 安全选项 -->
+            <div class="setting-group">
+                <div class="setting-title">安全选项</div>
+                <div class="checkbox-option">
+                    <label>
+                        <input type="checkbox" id="enableEncryption" checked>
+                        <span>启用数据加密</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="setting-actions">
+                <button class="save-btn" id="saveSettings">保存设置</button>
+                <button class="clear-btn" id="clearData">清除本地数据</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../lib/layui/layui.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cookieGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565C0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34A853;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="64" cy="64" r="60" fill="url(#cookieGradient)" stroke="#1565C0" stroke-width="2"/>
+  
+  <!-- Cookie图标 -->
+  <circle cx="50" cy="50" r="20" fill="#FFF" opacity="0.9"/>
+  <circle cx="45" cy="45" r="2" fill="#D4AF37"/>
+  <circle cx="52" cy="48" r="1.5" fill="#D4AF37"/>
+  <circle cx="48" cy="53" r="1.5" fill="#D4AF37"/>
+  <circle cx="54" cy="52" r="2" fill="#D4AF37"/>
+  
+  <!-- 云同步图标 -->
+  <path d="M75 70 Q70 65 75 60 Q80 55 90 60 Q95 55 100 60 Q105 65 100 70 Q105 75 95 75 L80 75 Q75 75 75 70 Z" 
+        fill="url(#cloudGradient)" opacity="0.9"/>
+  
+  <!-- 同步箭头 -->
+  <path d="M82 67 L88 61 L85 61 L85 58 L91 58 L91 64 L88 64 Z" fill="#FFF"/>
+  <path d="M93 73 L87 67 L90 67 L90 70 L84 70 L84 64 L87 64 Z" fill="#FFF"/>
+  
+  <!-- 装饰性光点 -->
+  <circle cx="30" cy="30" r="3" fill="#FFF" opacity="0.6"/>
+  <circle cx="95" cy="35" r="2" fill="#FFF" opacity="0.4"/>
+  <circle cx="25" cy="90" r="2.5" fill="#FFF" opacity="0.5"/>
+  <circle cx="100" cy="95" r="2" fill="#FFF" opacity="0.3"/>
+</svg>

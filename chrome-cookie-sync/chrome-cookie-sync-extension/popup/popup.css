@@ -1,0 +1,410 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 320px;
+    height: 480px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.cookie-sync-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 顶部标题栏 */
+.header {
+    background: linear-gradient(135deg, #1565C0, #1976D2);
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.3);
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-btn {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 同步状态卡片 */
+.status-card {
+    margin: 16px;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-info {
+    flex: 1;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+}
+
+.status-dot.synced {
+    background-color: #52c41a;
+}
+
+.status-dot.syncing {
+    background-color: #1890ff;
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.error {
+    background-color: #ff4d4f;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.last-sync {
+    font-size: 12px;
+    color: #666;
+}
+
+.cookie-count {
+    text-align: center;
+    padding-left: 16px;
+    border-left: 1px solid #f0f0f0;
+}
+
+.count-number {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1565C0;
+}
+
+.count-label {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 快速操作按钮区 */
+.action-buttons {
+    margin: 0 16px 16px;
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.upload-btn, .download-btn {
+    flex: 1;
+    height: 68px;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    padding: 0 16px;
+    outline: none;
+    /* 强制覆盖任何可能的LayUI样式 */
+    background-image: none !important;
+    text-decoration: none !important;
+    line-height: normal !important;
+}
+
+.upload-btn {
+    background-color: #4285F4 !important;
+    color: white !important;
+}
+
+.upload-btn:hover {
+    background-color: #3367D6 !important;
+}
+
+.download-btn {
+    background-color: #34A853 !important;
+    color: white !important;
+}
+
+.download-btn:hover {
+    background-color: #2E7D32 !important;
+}
+
+/* 进度显示区域 */
+.progress-area {
+    margin: 0 16px 16px;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    margin-bottom: 8px;
+}
+
+.progress-text {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+}
+
+/* 消息提示区域 */
+.message-area {
+    margin: 0 16px 16px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.message-area.success {
+    background-color: #f6ffed;
+    border: 1px solid #b7eb8f;
+    color: #52c41a;
+}
+
+.message-area.error {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    color: #ff4d4f;
+}
+
+/* 设置页面 */
+.settings-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8f9fa;
+    z-index: 1000;
+}
+
+.settings-header {
+    background: linear-gradient(135deg, #1565C0, #1976D2);
+    color: white;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.3);
+}
+
+.back-btn {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.settings-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.settings-content {
+    padding: 16px;
+    height: calc(100% - 64px);
+    overflow-y: auto;
+}
+
+.setting-group {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.setting-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.setting-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.radio-option input[type="radio"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.radio-option span {
+    font-size: 14px;
+    color: #333;
+}
+
+.checkbox-option {
+    padding: 8px 0;
+}
+
+.checkbox-option label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-option input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-option span {
+    font-size: 14px;
+    color: #333;
+}
+
+.setting-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.save-btn, .clear-btn {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.save-btn {
+    background-color: #4285F4;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #3367D6;
+}
+
+.clear-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.clear-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* LayUI图标字体 */
+@font-face {
+    font-family: 'layui-icon';
+    src: url('../lib/layui/font/iconfont.eot');
+    src: url('../lib/layui/font/iconfont.eot#iefix') format('embedded-opentype'),
+         url('../lib/layui/font/iconfont.woff2') format('woff2'),
+         url('../lib/layui/font/iconfont.woff') format('woff'),
+         url('../lib/layui/font/iconfont.ttf') format('truetype'),
+         url('../lib/layui/font/iconfont.svg#layui-icon') format('svg');
+}
+
+.layui-icon {
+    font-family: 'layui-icon' !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.layui-icon-cookie:before { content: "\e7c6"; }
+.layui-icon-set:before { content: "\e716"; }
+.layui-icon-upload:before { content: "\e67c"; }
+.layui-icon-download:before { content: "\e601"; }
+.layui-icon-return:before { content: "\e65c"; }
+
+/* 输入框样式 */
+.layui-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 15px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.layui-input:focus {
+    border-color: #4285F4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1);
+}
+
+.layui-input::placeholder {
+    color: #999;
+}
+
+/* 响应式调整 */
+@media (max-width: 320px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .upload-btn, .download-btn {
+        width: 100%;
+    }
+}

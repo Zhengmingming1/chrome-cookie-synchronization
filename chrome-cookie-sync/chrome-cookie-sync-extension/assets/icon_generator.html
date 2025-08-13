@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome扩展图标生成器</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1565C0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .canvas-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .canvas-item {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .download-btn {
+            background: #4285F4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 5px;
+        }
+        .download-btn:hover {
+            background: #3367D6;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+        .generate-all {
+            background: #34A853;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        .generate-all:hover {
+            background: #2E7D32;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍪 Chrome Cookie同步器图标生成器</h1>
+        
+        <div class="instructions">
+            <h3>使用说明：</h3>
+            <div class="step">1. 点击下方"生成所有图标"按钮</div>
+            <div class="step">2. 浏览器会自动下载4个PNG图标文件</div>
+            <div class="step">3. 将下载的图标文件移动到扩展的 assets/ 目录下</div>
+            <div class="step">4. 在Chrome中加载扩展程序</div>
+        </div>
+
+        <button class="generate-all" onclick="generateAllIcons()">🎨 生成所有图标</button>
+        
+        <div id="status" class="status"></div>
+
+        <div class="canvas-container">
+            <div class="canvas-item">
+                <h4>16x16</h4>
+                <canvas id="canvas16" width="16" height="16"></canvas>
+                <br>
+                <button class="download-btn" onclick="downloadIcon(16)">下载 16x16</button>
+            </div>
+            <div class="canvas-item">
+                <h4>32x32</h4>
+                <canvas id="canvas32" width="32" height="32"></canvas>
+                <br>
+                <button class="download-btn" onclick="downloadIcon(32)">下载 32x32</button>
+            </div>
+            <div class="canvas-item">
+                <h4>48x48</h4>
+                <canvas id="canvas48" width="48" height="48"></canvas>
+                <br>
+                <button class="download-btn" onclick="downloadIcon(48)">下载 48x48</button>
+            </div>
+            <div class="canvas-item">
+                <h4>128x128</h4>
+                <canvas id="canvas128" width="128" height="128"></canvas>
+                <br>
+                <button class="download-btn" onclick="downloadIcon(128)">下载 128x128</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // 清空画布
+            ctx.clearRect(0, 0, size, size);
+            
+            // 创建渐变背景
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#4285F4');
+            gradient.addColorStop(1, '#1565C0');
+            
+            // 绘制圆形背景
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 2, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // 绘制Cookie
+            ctx.fillStyle = '#FFF';
+            ctx.globalAlpha = 0.9;
+            ctx.beginPath();
+            ctx.arc(size * 0.4, size * 0.4, size * 0.15, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // 绘制Cookie上的点
+            ctx.fillStyle = '#D4AF37';
+            ctx.globalAlpha = 1;
+            const dotSize = Math.max(1, size * 0.02);
+            
+            // Cookie装饰点
+            const dots = [
+                {x: 0.35, y: 0.35, size: 1},
+                {x: 0.42, y: 0.38, size: 0.8},
+                {x: 0.38, y: 0.43, size: 0.8},
+                {x: 0.44, y: 0.42, size: 1}
+            ];
+            
+            dots.forEach(dot => {
+                ctx.beginPath();
+                ctx.arc(size * dot.x, size * dot.y, Math.max(1, dotSize * dot.size), 0, 2 * Math.PI);
+                ctx.fill();
+            });
+            
+            // 绘制云图标
+            const cloudGradient = ctx.createLinearGradient(size * 0.6, size * 0.5, size * 0.9, size * 0.8);
+            cloudGradient.addColorStop(0, '#34A853');
+            cloudGradient.addColorStop(1, '#2E7D32');
+            
+            ctx.fillStyle = cloudGradient;
+            ctx.globalAlpha = 0.9;
+            ctx.beginPath();
+            ctx.ellipse(size * 0.75, size * 0.65, size * 0.12, size * 0.08, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // 绘制同步箭头
+            ctx.fillStyle = '#FFF';
+            ctx.globalAlpha = 1;
+            
+            if (size >= 32) {
+                // 上箭头
+                ctx.beginPath();
+                ctx.moveTo(size * 0.72, size * 0.62);
+                ctx.lineTo(size * 0.75, size * 0.59);
+                ctx.lineTo(size * 0.78, size * 0.62);
+                ctx.lineTo(size * 0.76, size * 0.62);
+                ctx.lineTo(size * 0.76, size * 0.65);
+                ctx.lineTo(size * 0.74, size * 0.65);
+                ctx.lineTo(size * 0.74, size * 0.62);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 下箭头
+                ctx.beginPath();
+                ctx.moveTo(size * 0.78, size * 0.68);
+                ctx.lineTo(size * 0.75, size * 0.71);
+                ctx.lineTo(size * 0.72, size * 0.68);
+                ctx.lineTo(size * 0.74, size * 0.68);
+                ctx.lineTo(size * 0.74, size * 0.65);
+                ctx.lineTo(size * 0.76, size * 0.65);
+                ctx.lineTo(size * 0.76, size * 0.68);
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                // 简化的箭头（小尺寸）
+                ctx.beginPath();
+                ctx.arc(size * 0.75, size * 0.65, size * 0.04, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // 装饰性光点
+            if (size >= 48) {
+                ctx.fillStyle = '#FFF';
+                const highlights = [
+                    {x: 0.23, y: 0.23, size: 0.023, alpha: 0.6},
+                    {x: 0.74, y: 0.27, size: 0.015, alpha: 0.4},
+                    {x: 0.19, y: 0.70, size: 0.019, alpha: 0.5},
+                    {x: 0.78, y: 0.74, size: 0.015, alpha: 0.3}
+                ];
+                
+                highlights.forEach(highlight => {
+                    ctx.globalAlpha = highlight.alpha;
+                    ctx.beginPath();
+                    ctx.arc(size * highlight.x, size * highlight.y, size * highlight.size, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            }
+            
+            ctx.globalAlpha = 1;
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function generateAllIcons() {
+            const sizes = [16, 32, 48, 128];
+            const status = document.getElementById('status');
+            
+            status.innerHTML = '<span class="success">正在生成图标...</span>';
+            
+            sizes.forEach((size, index) => {
+                setTimeout(() => {
+                    createIcon(size);
+                    setTimeout(() => {
+                        downloadIcon(size);
+                        if (index === sizes.length - 1) {
+                            status.innerHTML = '<span class="success">✅ 所有图标生成完成！请将下载的文件移动到 assets/ 目录</span>';
+                        }
+                    }, 100);
+                }, index * 200);
+            });
+        }
+
+        // 页面加载时生成预览
+        window.onload = function() {
+            [16, 32, 48, 128].forEach(size => {
+                createIcon(size);
+            });
+        };
+    </script>
+</body>
+</html>
